@@ -4,12 +4,12 @@
       "command": "uv",
       "args": [
         "--directory",
-        "/ABSOLUTE/PATH/aws-opensearch-mcp",
+        "/ABSOLUTE/PATH/aws-opensearch-mcp-server",
         "run",
         "aws-opensearch-mcp"
       ],
       "env": {
-        "AWS_OPENSEARCH_MCP_CONFIG": "/ABSOLUTE/PATH/aws-opensearch-mcp/config.yaml",
+        "AWS_OPENSEARCH_MCP_CONFIG": "/ABSOLUTE/PATH/aws-opensearch-mcp-server/config.yaml",
         "AWS_SDK_LOAD_CONFIG": "1",
         "AWS_OPENSEARCH_MCP_LOG_LEVEL": "INFO"
       },
