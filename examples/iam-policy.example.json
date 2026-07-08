@@ -1,0 +1,26 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "DiscoverManagedDomains",
+      "Effect": "Allow",
+      "Action": [
+        "es:ListDomainNames",
+        "es:DescribeDomain"
+      ],
+      "Resource": "*"
+    },
+    {
+      "Sid": "ReadOpenSearchDataPlane",
+      "Effect": "Allow",
+      "Action": [
+        "es:ESHttpGet",
+        "es:ESHttpPost"
+      ],
+      "Resource": [
+        "arn:aws:es:us-east-1:ACCOUNT_ID:domain/DOMAIN_NAME/*",
+        "arn:aws:es:us-east-2:ACCOUNT_ID:domain/DOMAIN_NAME/*"
+      ]
+    }
+  ]
+}
