@@ -1,0 +1,19 @@
+{
+  "mcpServers": {
+    "aws-opensearch-readonly": {
+      "command": "uv",
+      "args": [
+        "--directory",
+        "/ABSOLUTE/PATH/aws-opensearch-mcp",
+        "run",
+        "aws-opensearch-mcp"
+      ],
+      "env": {
+        "AWS_OPENSEARCH_MCP_CONFIG": "/ABSOLUTE/PATH/aws-opensearch-mcp/config.yaml",
+        "AWS_SDK_LOAD_CONFIG": "1",
+        "AWS_OPENSEARCH_MCP_LOG_LEVEL": "INFO"
+      },
+      "timeout": 120000
+    }
+  }
+}
