@@ -48,7 +48,8 @@ MCP em Python para investigar domínios do **Amazon OpenSearch Service** usando 
 ## Instalação
 
 ```bash
-cd aws-opensearch-mcp
+git clone https://github.com/thiagorchaves/aws-opensearch-mcp-server.git
+cd aws-opensearch-mcp-server
 cp config.example.yaml config.yaml
 uv sync --extra dev
 ```
@@ -87,12 +88,12 @@ Use o arquivo de usuário `~/.kiro/settings/mcp.json` ou o arquivo do workspace 
       "command": "uv",
       "args": [
         "--directory",
-        "/home/SEU_USUARIO/Projects/aws-opensearch-mcp",
+        "/home/SEU_USUARIO/Projects/aws-opensearch-mcp-server",
         "run",
         "aws-opensearch-mcp"
       ],
       "env": {
-        "AWS_OPENSEARCH_MCP_CONFIG": "/home/SEU_USUARIO/Projects/aws-opensearch-mcp/config.yaml",
+        "AWS_OPENSEARCH_MCP_CONFIG": "/home/SEU_USUARIO/Projects/aws-opensearch-mcp-server/config.yaml",
         "AWS_SDK_LOAD_CONFIG": "1",
         "AWS_OPENSEARCH_MCP_LOG_LEVEL": "INFO"
       },
