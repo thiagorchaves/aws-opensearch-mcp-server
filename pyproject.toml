@@ -1,0 +1,45 @@
+[build-system]
+requires = ["hatchling>=1.27"]
+build-backend = "hatchling.build"
+
+[project]
+name = "aws-opensearch-mcp"
+version = "0.1.0"
+description = "Read-only MCP server for Amazon OpenSearch Service with AWS profile allowlists and operational diagnostics."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "MIT" }
+authors = [
+  { name = "Thiago Chaves" }
+]
+dependencies = [
+  "mcp[cli]>=1.27,<2",
+  "boto3>=1.35,<2",
+  "opensearch-py>=2.8,<4",
+  "PyYAML>=6.0,<7",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8.0,<9",
+  "pytest-cov>=5.0,<7",
+  "ruff>=0.9,<1",
+]
+
+[project.scripts]
+aws-opensearch-mcp = "aws_opensearch_mcp.server:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/aws_opensearch_mcp"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py310"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501"]
