@@ -3,12 +3,28 @@
 from __future__ import annotations
 
 import os
+import re
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import Any
 
 import yaml
 
+
+_ENV_VAR_PATTERN = re.compile(r"\$\{([^}]+)\}")
+
+
+def _expand_env_vars(value: str) -> str:
+    """Expand ${ENV_VAR} references in a string value."""
+
+    def _replacer(match: re.Match) -> str:
+        var_name = match.group(1)
+        env_value = os.environ.get(var_name)
+        if env_value is None:
+            raise ConfigError(f"Environment variable '{var_name}' is not set")
+        return env_value
+
+    return _ENV_VAR_PATTERN.sub(_replacer, value)
 
 class ConfigError(ValueError):
     """Raised when MCP configuration is invalid."""
@@ -29,6 +45,7 @@ class ProfileSettings:
     read_only: bool = True
     role_arn: str | None = None
     external_id: str | None = None
+    endpoint_overrides: dict[str, str] = field(default_factory=dict)
 
 
 @dataclass(frozen=True)
@@ -120,10 +137,17 @@ def load_settings(path: str | Path | None = None) -> Settings:
         raw = raw or {}
         if not isinstance(raw, dict):
             raise ConfigError(f"profiles.settings.{profile} must be an object")
+        raw_overrides = raw.get("endpoint_overrides") or {}
+        if not isinstance(raw_overrides, dict):
+            raise ConfigError(f"profiles.settings.{profile}.endpoint_overrides must be an object")
+        endpoint_overrides = {
+            k: _expand_env_vars(v) for k, v in raw_overrides.items() if isinstance(v, str)
+        }
         profile_settings[profile] = ProfileSettings(
             read_only=bool(raw.get("read_only", True)),
             role_arn=raw.get("role_arn"),
             external_id=raw.get("external_id"),
+            endpoint_overrides=endpoint_overrides,
         )
 
     limits = Limits(
