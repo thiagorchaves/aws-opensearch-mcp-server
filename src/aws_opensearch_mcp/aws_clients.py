@@ -130,11 +130,14 @@ class AwsSessionFactory:
 
     def target(self, profile: str, region: str, domain: str) -> DomainTarget:
         status = self.describe_domain(profile, region, domain)
+        profile_settings = self.settings.for_profile(profile)
+        override = profile_settings.endpoint_overrides.get(domain)
+        endpoint = override if override else self.extract_endpoint(status)
         return DomainTarget(
             profile=profile,
             region=region,
             domain=domain,
-            endpoint=self.extract_endpoint(status),
+            endpoint=endpoint,
         )
 
     def open_search_client(self, target: DomainTarget) -> OpenSearch:
